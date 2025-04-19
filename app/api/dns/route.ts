@@ -1,6 +1,20 @@
 import { NextRequest } from "next/server";
 
-const RECORD_TYPES = ["A", "AAAA", "MX", "NS", "TXT", "CNAME"];
+const RECORD_TYPES = [
+	"A",
+	"AAAA",
+	"MX",
+	"NS",
+	"TXT",
+	"CNAME",
+	"SOA",
+	"SRV",
+	"PTR",
+	"SPF",
+	"CAA",
+	"DS",
+	"DNSKEY",
+];
 
 export async function GET(req: NextRequest) {
 	const domain = req.nextUrl.searchParams.get("domain");
