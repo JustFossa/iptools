@@ -30,7 +30,7 @@ export const SearchBar = () => {
 			}
 			setInput("");
 			setError("");
-			router.push(`/tools/lookup?ip=${response.data.ip}`);
+			router.replace(`/tools/lookup?ip=${response.data.ip}`);
 			console.log(response.data);
 		} catch (error) {
 			console.error("Error fetching IP info:", error);
