@@ -84,44 +84,45 @@ export default function Lookup() {
 	}, [params.get("ip")]);
 
 	return (
-		<div className="flex flex-col gap-4 ">
-			<div className="flex flex-row justify-between items-center">
-				<Button
-					onClick={() => router.replace("/")}
-					variant="ghost"
-					className="hover:text-button-foreground cursor-pointer w-auto self-start"
-				>
-					<FaLongArrowAltLeft /> Back to tools
-				</Button>
-				{ipInfo && (
+		<Suspense fallback={<p>Loading...</p>}>
+			<div className="flex flex-col gap-4 ">
+				<div className="flex flex-row justify-between items-center">
 					<Button
-						variant="outline"
-						className="hover:text-red-500 cursor- flex flex-row gap-2 cursor-pointer items-center"
-						onClick={() => {
-							router.replace("/tools/lookup");
-							setIpInfo(null);
-							setError(null);
-							setIsOpen(false);
-						}}
+						onClick={() => router.replace("/")}
+						variant="ghost"
+						className="hover:text-button-foreground cursor-pointer w-auto self-start"
 					>
-						<RxCross2 /> Clear
+						<FaLongArrowAltLeft /> Back to tools
 					</Button>
-				)}
-			</div>
+					{ipInfo && (
+						<Button
+							variant="outline"
+							className="hover:text-red-500 cursor- flex flex-row gap-2 cursor-pointer items-center"
+							onClick={() => {
+								router.replace("/tools/lookup");
+								setIpInfo(null);
+								setError(null);
+								setIsOpen(false);
+							}}
+						>
+							<RxCross2 /> Clear
+						</Button>
+					)}
+				</div>
 
-			<h1 className="text-3xl font-bold">IP Lookup</h1>
-			{!ipInfo ? (
-				<p className="text-lg">
-					Enter an IP address or domain in the search box to look up its
-					information.
-				</p>
-			) : (
-				<p className="text-lg">
-					Showing information for{" "}
-					<span className="font-semibold">{ipInfo.ip}</span>
-				</p>
-			)}
-			<Suspense>
+				<h1 className="text-3xl font-bold">IP Lookup</h1>
+				{!ipInfo ? (
+					<p className="text-lg">
+						Enter an IP address or domain in the search box to look up its
+						information.
+					</p>
+				) : (
+					<p className="text-lg">
+						Showing information for{" "}
+						<span className="font-semibold">{ipInfo.ip}</span>
+					</p>
+				)}
+
 				{!isLoading && !error && ipInfo && (
 					<Collapsible
 						open={open}
@@ -212,10 +213,11 @@ export default function Lookup() {
 						</CollapsibleContent>
 					</Collapsible>
 				)}
-			</Suspense>
-			{error && !isLoading && (
-				<p className="text-red-500 text-sm mt-2 text-center">{error}</p>
-			)}
-		</div>
+
+				{error && !isLoading && (
+					<p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+				)}
+			</div>
+		</Suspense>
 	);
 }
