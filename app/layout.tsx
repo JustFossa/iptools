@@ -5,6 +5,8 @@ import ThemeProvider from "@/components/theme-provider";
 
 const robotoMono = Roboto_Mono({
 	subsets: ["latin"],
+	weight: "variable",
+	style: ["normal", "italic"],
 	variable: "--font-geist-mono",
 });
 export const metadata: Metadata = {
@@ -18,8 +20,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body>
+		<html lang="en" suppressHydrationWarning>
+			<body className={`${robotoMono.variable} antialiased`}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
