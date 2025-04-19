@@ -1,19 +1,8 @@
 import { NextRequest } from "next/server";
 
 const RECORD_TYPES = [
-	"A",
-	"AAAA",
-	"MX",
-	"NS",
-	"TXT",
-	"CNAME",
-	"SOA",
-	"SRV",
-	"PTR",
-	"SPF",
-	"CAA",
-	"DS",
-	"DNSKEY",
+	"A", "AAAA", "MX", "NS", "TXT", "CNAME", "SOA",
+	"SRV", "PTR", "SPF", "CAA", "DS", "DNSKEY"
 ];
 
 export async function GET(req: NextRequest) {
@@ -54,7 +43,7 @@ export async function GET(req: NextRequest) {
 		return new Response(JSON.stringify(results), {
 			headers: {
 				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*", // Adjust for production
+				"Access-Control-Allow-Origin": "*",
 			},
 			status: 200,
 		});
@@ -67,7 +56,7 @@ export async function GET(req: NextRequest) {
 	}
 }
 
-// Map numeric type to string (Cloudflare DNS uses numeric codes in response)
+// Complete mapping for all queried DNS record types
 function getRecordTypeName(code: number): string {
 	const TYPES: Record<number, string> = {
 		1: "A",
@@ -76,6 +65,13 @@ function getRecordTypeName(code: number): string {
 		2: "NS",
 		16: "TXT",
 		5: "CNAME",
+		6: "SOA",
+		33: "SRV",
+		12: "PTR",
+		99: "SPF",
+		257: "CAA",
+		43: "DS",
+		48: "DNSKEY",
 	};
 	return TYPES[code] || `TYPE${code}`;
 }
