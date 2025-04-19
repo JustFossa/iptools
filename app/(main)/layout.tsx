@@ -5,7 +5,7 @@ import { FiGithub } from "react-icons/fi";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="flex flex-col md:flex-row gap-4 items-center">
+		<div className="flex flex-col md:flex-row gap-4 md:items-start items-center">
 			<div className="flex flex-col w-[70%] md:w-[50%]">
 				<div className="p-4">
 					<h1 className="text-4xl font-bold text-left mb-3">IP Info</h1>

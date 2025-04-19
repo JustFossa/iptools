@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
+import { Suspense } from "react";
 import axios from "axios";
 import {
 	Dialog,
@@ -120,91 +121,98 @@ export default function Lookup() {
 					<span className="font-semibold">{ipInfo.ip}</span>
 				</p>
 			)}
-			{!isLoading && !error && ipInfo && (
-				<Collapsible
-					open={open}
-					onOpenChange={setIsOpen}
-					className="w-full border-input border rounded-lg overflow-hidden"
-				>
-					<CollapsibleTrigger className="w-full" asChild>
-						<Button
-							variant="outline"
-							className="w-full flex flex-row justify-between items-center border-none  cursor-pointer bg-background dark:bg-background "
-						>
-							<p className="text-lg  p-1">IPv4 Information</p>
-							{open ? <IoIosArrowUp className="" /> : <IoIosArrowDown />}
-						</Button>
-					</CollapsibleTrigger>
-					<CollapsibleContent className="w-full p-4 space-y-4">
-						<Table>
-							<TableBody className="cursor-default">
-								<TableRow>
-									<TableCell className="font-semibold">IP Address</TableCell>
-									<TableCell className="">{ipInfo.ip}</TableCell>
-								</TableRow>
-								<TableRow>
-									<TableCell className="font-semibold">Location</TableCell>
-									<TableCell className="">
-										{ipInfo.city}, {ipInfo.region}, {ipInfo.country_name}
-									</TableCell>
-								</TableRow>
-								<TableRow>
-									<TableCell className="font-semibold">ISP</TableCell>
-									<TableCell className="">{ipInfo.org || "N/A"}</TableCell>
-								</TableRow>
-								<TableRow>
-									<TableCell className="font-semibold">ASN</TableCell>
-									<TableCell className="">{ipInfo.asn || "N/A"}</TableCell>
-								</TableRow>
-								<TableRow>
-									<TableCell className="font-semibold">Time zone</TableCell>
-									<TableCell className="">{ipInfo.timezone || "N/A"}</TableCell>
-								</TableRow>
-								<TableRow>
-									<TableCell className="font-semibold">Postal Code</TableCell>
-									<TableCell className="">{ipInfo.postal || "N/A"}</TableCell>
-								</TableRow>
-								<TableRow>
-									<TableCell className="font-semibold">Coordinates</TableCell>
-									<TableCell className="flex flex-row justify-between items-center">
-										<div className="flex flex-col">
-											<span>{ipInfo.latitude} </span>
-											<span>{ipInfo.longitude}</span>
-										</div>
-										<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-											<DialogTrigger asChild>
-												<Button
-													variant="outline"
-													className="scale-90 hover:text-button-foreground cursor-pointer"
-												>
-													<FaMapMarkerAlt /> View on Map
-												</Button>
-											</DialogTrigger>
-											<DialogContent>
-												<DialogHeader>
-													<DialogTitle>Map Location</DialogTitle>
-													<DialogDescription>
-														This is your appproximate location based on latitude
-														and longitude
-													</DialogDescription>
-												</DialogHeader>
-												<div className="h-96 w-full">
-													<Map
-														lat={ipInfo.latitude}
-														lon={ipInfo.longitude}
-														city={ipInfo.city}
-														country={ipInfo.country_name}
-													/>
-												</div>
-											</DialogContent>
-										</Dialog>
-									</TableCell>
-								</TableRow>
-							</TableBody>
-						</Table>
-					</CollapsibleContent>
-				</Collapsible>
-			)}
+			<Suspense>
+				{!isLoading && !error && ipInfo && (
+					<Collapsible
+						open={open}
+						onOpenChange={setIsOpen}
+						className="w-full border-input border rounded-lg overflow-hidden"
+					>
+						<CollapsibleTrigger className="w-full" asChild>
+							<Button
+								variant="outline"
+								className="w-full flex flex-row justify-between items-center border-none  cursor-pointer bg-background dark:bg-background "
+							>
+								<p className="text-lg  p-1">IPv4 Information</p>
+								{open ? <IoIosArrowUp className="" /> : <IoIosArrowDown />}
+							</Button>
+						</CollapsibleTrigger>
+						<CollapsibleContent className="w-full p-4 space-y-4">
+							<Table>
+								<TableBody className="cursor-default">
+									<TableRow>
+										<TableCell className="font-semibold">IP Address</TableCell>
+										<TableCell className="">{ipInfo.ip}</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell className="font-semibold">Location</TableCell>
+										<TableCell className="">
+											{ipInfo.city}, {ipInfo.region}, {ipInfo.country_name}
+										</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell className="font-semibold">ISP</TableCell>
+										<TableCell className="">{ipInfo.org || "N/A"}</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell className="font-semibold">ASN</TableCell>
+										<TableCell className="">{ipInfo.asn || "N/A"}</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell className="font-semibold">Time zone</TableCell>
+										<TableCell className="">
+											{ipInfo.timezone || "N/A"}
+										</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell className="font-semibold">Postal Code</TableCell>
+										<TableCell className="">{ipInfo.postal || "N/A"}</TableCell>
+									</TableRow>
+									<TableRow>
+										<TableCell className="font-semibold">Coordinates</TableCell>
+										<TableCell className="flex flex-row justify-between items-center">
+											<div className="flex flex-col">
+												<span>{ipInfo.latitude} </span>
+												<span>{ipInfo.longitude}</span>
+											</div>
+											<Dialog
+												open={isDialogOpen}
+												onOpenChange={setIsDialogOpen}
+											>
+												<DialogTrigger asChild>
+													<Button
+														variant="outline"
+														className="scale-90 hover:text-button-foreground cursor-pointer"
+													>
+														<FaMapMarkerAlt /> View on Map
+													</Button>
+												</DialogTrigger>
+												<DialogContent>
+													<DialogHeader>
+														<DialogTitle>Map Location</DialogTitle>
+														<DialogDescription>
+															This is your appproximate location based on
+															latitude and longitude
+														</DialogDescription>
+													</DialogHeader>
+													<div className="h-96 w-full">
+														<Map
+															lat={ipInfo.latitude}
+															lon={ipInfo.longitude}
+															city={ipInfo.city}
+															country={ipInfo.country_name}
+														/>
+													</div>
+												</DialogContent>
+											</Dialog>
+										</TableCell>
+									</TableRow>
+								</TableBody>
+							</Table>
+						</CollapsibleContent>
+					</Collapsible>
+				)}
+			</Suspense>
 			{error && !isLoading && (
 				<p className="text-red-500 text-sm mt-2 text-center">{error}</p>
 			)}
