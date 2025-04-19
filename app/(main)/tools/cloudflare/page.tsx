@@ -25,7 +25,6 @@ import { IoSearchOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 
 type CFRecord = {
-	id: string;
 	name: string;
 	type: string;
 	content: string;
@@ -136,8 +135,8 @@ export default function Cloudflare() {
 						<Table>
 							<TableBody className="cursor-default">
 								{domainInfo &&
-									domainInfo.map((item: CFRecord) => (
-										<TableRow key={item.id}>
+									domainInfo.map((item: CFRecord, index: number) => (
+										<TableRow key={index}>
 											<TableCell className="font-semibold">
 												{item.type}
 											</TableCell>
